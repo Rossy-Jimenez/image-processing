@@ -1232,4 +1232,81 @@ export class MathImg {
   */
     return sal;
   }
+
+
+
+
+
+  public static expandirRangoDinamico(arrImage: number[][][]): number[][][] {
+    const width = arrImage[0][0].length;
+    const height = arrImage[0].length;
+    const sal = this.initArray(width, height);
+
+    // Encuentra los valores mínimos y máximos en cada canal
+    let minR = 255;
+    let minG = 255;
+    let minB = 255;
+    let maxR = 0;
+    let maxG = 0;
+    let maxB = 0;
+
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        minR = Math.min(minR, arrImage[0][i][j]);
+        minG = Math.min(minG, arrImage[1][i][j]);
+        minB = Math.min(minB, arrImage[2][i][j]);
+        maxR = Math.max(maxR, arrImage[0][i][j]);
+        maxG = Math.max(maxG, arrImage[1][i][j]);
+        maxB = Math.max(maxB, arrImage[2][i][j]);
+      }
+    }
+
+    // Calcula los factores de escala para cada canal
+    const scaleR = 255 / (maxR - minR);
+    const scaleG = 255 / (maxG - minG);
+    const scaleB = 255 / (maxB - minB);
+
+    // Aplica la expansión del rango dinámico
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        sal[0][i][j] = Math.round((arrImage[0][i][j] - minR) * scaleR);
+        sal[1][i][j] = Math.round((arrImage[1][i][j] - minG) * scaleG);
+        sal[2][i][j] = Math.round((arrImage[2][i][j] - minB) * scaleB);
+      }
+    }
+
+    return sal;
+  }
+
+  public static EfectoSepia(arrImage: number[][][]): number[][][] {
+    const width = arrImage[0][0].length;
+    const height = arrImage[0].length;
+    const sal = this.initArray(width, height);
+
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+            const r = arrImage[0][i][j];
+            const g = arrImage[1][i][j];
+            const b = arrImage[2][i][j];
+
+            // Fórmulas para aplicar el efecto sepia
+            const tr = 0.393 * r + 0.769 * g + 0.189 * b;
+            const tg = 0.349 * r + 0.686 * g + 0.168 * b;
+            const tb = 0.272 * r + 0.534 * g + 0.131 * b;
+
+            // Ajusta los valores para evitar que se salgan del rango (0-255)
+            sal[0][i][j] = Math.min(255, tr);
+            sal[1][i][j] = Math.min(255, tg);
+            sal[2][i][j] = Math.min(255, tb);
+        }
+    }
+
+    return sal;
+}
+
+
+
+
+
+
 }

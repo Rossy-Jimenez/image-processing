@@ -1148,6 +1148,62 @@ var MathImg = /** @class */ (function () {
       */
         return sal;
     };
+    MathImg.expandirRangoDinamico = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        // Encuentra los valores mínimos y máximos en cada canal
+        var minR = 255;
+        var minG = 255;
+        var minB = 255;
+        var maxR = 0;
+        var maxG = 0;
+        var maxB = 0;
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                minR = Math.min(minR, arrImage[0][i][j]);
+                minG = Math.min(minG, arrImage[1][i][j]);
+                minB = Math.min(minB, arrImage[2][i][j]);
+                maxR = Math.max(maxR, arrImage[0][i][j]);
+                maxG = Math.max(maxG, arrImage[1][i][j]);
+                maxB = Math.max(maxB, arrImage[2][i][j]);
+            }
+        }
+        // Calcula los factores de escala para cada canal
+        var scaleR = 255 / (maxR - minR);
+        var scaleG = 255 / (maxG - minG);
+        var scaleB = 255 / (maxB - minB);
+        // Aplica la expansión del rango dinámico
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = Math.round((arrImage[0][i][j] - minR) * scaleR);
+                sal[1][i][j] = Math.round((arrImage[1][i][j] - minG) * scaleG);
+                sal[2][i][j] = Math.round((arrImage[2][i][j] - minB) * scaleB);
+            }
+        }
+        return sal;
+    };
+    MathImg.EfectoSepia = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                var r = arrImage[0][i][j];
+                var g = arrImage[1][i][j];
+                var b = arrImage[2][i][j];
+                // Fórmulas para aplicar el efecto sepia
+                var tr = 0.393 * r + 0.769 * g + 0.189 * b;
+                var tg = 0.349 * r + 0.686 * g + 0.168 * b;
+                var tb = 0.272 * r + 0.534 * g + 0.131 * b;
+                // Ajusta los valores para evitar que se salgan del rango (0-255)
+                sal[0][i][j] = Math.min(255, tr);
+                sal[1][i][j] = Math.min(255, tg);
+                sal[2][i][j] = Math.min(255, tb);
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };
