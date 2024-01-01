@@ -1360,5 +1360,91 @@ public static EfectoArcoIris(imagenOriginal: ImageType): number[][][] {
 
   return sal; }
 
+  public static saturacionSelectiva(arrImage: number[][][], saturacion: number): number[][][] {
+    // Obtén el ancho y alto de la imagen original
+    const width = arrImage[0][0].length;
+    const height = arrImage[0].length;
+
+    // Inicializa el arreglo de salida con los colores originales
+    const sal = this.initArray(width, height);
+
+    // Factor de saturación
+    const saturationFactor = (100 + saturacion) / 100;
+
+    // Aplica la saturación selectiva
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+            // Convierte el píxel a HSL
+            const hsl = this.rgbToHsl(arrImage[0][i][j], arrImage[1][i][j], arrImage[2][i][j]);
+
+            // Ajusta la saturación
+            hsl[1] *= saturationFactor;
+
+            // Convierte de nuevo a RGB
+            const rgb = this.hslToRgb(hsl[0], hsl[1], hsl[2]);
+
+            // Asigna los nuevos valores al píxel
+            sal[0][i][j] = rgb[0];
+            sal[1][i][j] = rgb[1];
+            sal[2][i][j] = rgb[2];
+        }
+    }
+
+    return sal;
+}
+
+// Función para convertir de RGB a HSL
+private static rgbToHsl(r: number, g: number, b: number): number[] {
+    r /= 255, g /= 255, b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0;
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+
+        h /= 6;
+    }
+
+    return [h * 360, s, l];
+}
+
+// Función para convertir de HSL a RGB
+private static hslToRgb(h: number, s: number, l: number): number[] {
+    let r, g, b;
+
+    if (s === 0) {
+        r = g = b = l;
+    } else {
+        const hue2rgb = (p: number, q: number, t: number) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
+
+
 
 }

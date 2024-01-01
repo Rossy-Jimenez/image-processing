@@ -1249,6 +1249,85 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.saturacionSelectiva = function (arrImage, saturacion) {
+        // Obtén el ancho y alto de la imagen original
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        // Inicializa el arreglo de salida con los colores originales
+        var sal = this.initArray(width, height);
+        // Factor de saturación
+        var saturationFactor = (100 + saturacion) / 100;
+        // Aplica la saturación selectiva
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Convierte el píxel a HSL
+                var hsl = this.rgbToHsl(arrImage[0][i][j], arrImage[1][i][j], arrImage[2][i][j]);
+                // Ajusta la saturación
+                hsl[1] *= saturationFactor;
+                // Convierte de nuevo a RGB
+                var rgb = this.hslToRgb(hsl[0], hsl[1], hsl[2]);
+                // Asigna los nuevos valores al píxel
+                sal[0][i][j] = rgb[0];
+                sal[1][i][j] = rgb[1];
+                sal[2][i][j] = rgb[2];
+            }
+        }
+        return sal;
+    };
+    // Función para convertir de RGB a HSL
+    MathImg.rgbToHsl = function (r, g, b) {
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h = 0, s, l = (max + min) / 2;
+        if (max === min) {
+            h = s = 0;
+        }
+        else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+        return [h * 360, s, l];
+    };
+    // Función para convertir de HSL a RGB
+    MathImg.hslToRgb = function (h, s, l) {
+        var r, g, b;
+        if (s === 0) {
+            r = g = b = l;
+        }
+        else {
+            var hue2rgb = function (p, q, t) {
+                if (t < 0)
+                    t += 1;
+                if (t > 1)
+                    t -= 1;
+                if (t < 1 / 6)
+                    return p + (q - p) * 6 * t;
+                if (t < 1 / 2)
+                    return q;
+                if (t < 2 / 3)
+                    return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    };
     return MathImg;
 }());
 export { MathImg };

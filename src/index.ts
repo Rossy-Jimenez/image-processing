@@ -461,6 +461,27 @@ function EfectoArcoIris(evt: any): void {
   // Aplica la función superponerArcoIris
   imagenSal.imageArray2DtoData(pantalla2, MathImg.EfectoArcoIris(imagenSal));
 }
+
+function EfectoSaturacion(evt: any): void {
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Obtén el valor de saturación del usuario 
+  var saturacionString = prompt('Ingresa el valor de saturación (positivo o negativo):');
+
+  // Verifica que la saturación sea un número válido
+  if (!saturacionString || isNaN(parseFloat(saturacionString))) {
+      alert('Ingresa un valor de saturación válido.');
+      return;
+  }
+
+  // Convierte el valor de saturación a número
+  var saturacion = parseFloat(saturacionString);
+
+  // Aplica la función de saturación selectiva
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.saturacionSelectiva(imagenSal.getArrayImg(), saturacion));
+}
+
+
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -543,3 +564,5 @@ document.getElementById('efectoHDR').addEventListener('click', EfectoHDR);
 document.getElementById('EfectoSepia').addEventListener('click', EfectoSepia);
 document.getElementById('dispersion').addEventListener('click', EfectoDispersion)
 document.getElementById('efectoArcoIris').addEventListener('click', EfectoArcoIris);
+document.getElementById('EfectoSaturacion').addEventListener('click', EfectoSaturacion);
+
