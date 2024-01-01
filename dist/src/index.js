@@ -396,6 +396,22 @@ function EfectoSepia(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.EfectoSepia(imagenSal.getArrayImg()));
 }
+function EfectoDispersion(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    // Pregunta al usuario la cantidad de dispersión
+    var cantidadString = prompt('Ingresa la cantidad de dispersión:');
+    if (!cantidadString || isNaN(parseInt(cantidadString)) || parseInt(cantidadString) < 1) {
+        alert('Ingresa una cantidad válida.');
+        return;
+    }
+    var cantidad = parseInt(cantidadString);
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoDispersion(imagenSal.getArrayImg(), cantidad));
+}
+function EfectoArcoIris(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    // Aplica la función superponerArcoIris
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.EfectoArcoIris(imagenSal));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -464,3 +480,5 @@ document.getElementById("op-afin").addEventListener('click', tAfin, false);
 //proyecto 
 document.getElementById('efectoHDR').addEventListener('click', EfectoHDR);
 document.getElementById('EfectoSepia').addEventListener('click', EfectoSepia);
+document.getElementById('dispersion').addEventListener('click', EfectoDispersion);
+document.getElementById('efectoArcoIris').addEventListener('click', EfectoArcoIris);

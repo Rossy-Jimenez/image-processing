@@ -1204,6 +1204,51 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.efectoDispersion = function (arrImage, cantidad) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Calcula la posición dispersa
+                var dispersaX = j + Math.floor(Math.random() * cantidad * 2) - cantidad;
+                var dispersaY = i + Math.floor(Math.random() * cantidad * 2) - cantidad;
+                // Asegúrate de que la posición dispersa esté dentro de los límites de la imagen
+                var x = Math.min(Math.max(dispersaX, 0), width - 1);
+                var y = Math.min(Math.max(dispersaY, 0), height - 1);
+                // Copia el color original en la posición dispersa
+                sal[0][y][x] = arrImage[0][i][j];
+                sal[1][y][x] = arrImage[1][i][j];
+                sal[2][y][x] = arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.EfectoArcoIris = function (imagenOriginal) {
+        var width = imagenOriginal.getWidth();
+        var height = imagenOriginal.getHeight();
+        var arrImage = imagenOriginal.getArrayImg();
+        var sal = this.initArray(width, height);
+        // Colores del arco iris (rojo, naranja, amarillo, verde, azul, violeta)
+        var colores = [
+            [255, 0, 0],
+            [255, 165, 0],
+            [255, 255, 0],
+            [0, 128, 0],
+            [0, 0, 255],
+            [128, 0, 128]
+        ];
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                var banda = Math.floor((colores.length * j) / width);
+                // Combina la imagen original con el color del arco iris
+                sal[0][i][j] = Math.min(arrImage[0][i][j] + colores[banda][0], 255);
+                sal[1][i][j] = Math.min(arrImage[1][i][j] + colores[banda][1], 255);
+                sal[2][i][j] = Math.min(arrImage[2][i][j] + colores[banda][2], 255);
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

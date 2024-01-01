@@ -1305,8 +1305,60 @@ export class MathImg {
 }
 
 
+public static efectoDispersion(arrImage: number[][][], cantidad: number): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      // Calcula la posición dispersa
+      const dispersaX = j + Math.floor(Math.random() * cantidad * 2) - cantidad;
+      const dispersaY = i + Math.floor(Math.random() * cantidad * 2) - cantidad;
+
+      // Asegúrate de que la posición dispersa esté dentro de los límites de la imagen
+      const x = Math.min(Math.max(dispersaX, 0), width - 1);
+      const y = Math.min(Math.max(dispersaY, 0), height - 1);
+
+      // Copia el color original en la posición dispersa
+      sal[0][y][x] = arrImage[0][i][j];
+      sal[1][y][x] = arrImage[1][i][j];
+      sal[2][y][x] = arrImage[2][i][j];
+    }
+  }
+
+  return sal;
+}
 
 
+public static EfectoArcoIris(imagenOriginal: ImageType): number[][][] {
+  const width = imagenOriginal.getWidth();
+  const height = imagenOriginal.getHeight();
+  const arrImage = imagenOriginal.getArrayImg();
+  const sal = this.initArray(width, height);
+
+  // Colores del arco iris (rojo, naranja, amarillo, verde, azul, violeta)
+  const colores = [
+      [255, 0, 0],
+      [255, 165, 0],
+      [255, 255, 0],
+      [0, 128, 0],
+      [0, 0, 255],
+      [128, 0, 128]
+  ];
+
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          const banda = Math.floor((colores.length * j) / width);
+
+          // Combina la imagen original con el color del arco iris
+          sal[0][i][j] = Math.min(arrImage[0][i][j] + colores[banda][0], 255);
+          sal[1][i][j] = Math.min(arrImage[1][i][j] + colores[banda][1], 255);
+          sal[2][i][j] = Math.min(arrImage[2][i][j] + colores[banda][2], 255);
+      }
+  }
+
+  return sal; }
 
 
 }
