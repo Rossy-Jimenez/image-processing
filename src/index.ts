@@ -560,9 +560,9 @@ document.getElementById("op-shearingY").addEventListener('click', shearingY, fal
 document.getElementById("op-afin").addEventListener('click', tAfin, false);
 
 //proyecto 
-document.getElementById('efectoHDR').addEventListener('click', EfectoHDR);
+document.getElementById('EfectoHDR').addEventListener('click', EfectoHDR);
 document.getElementById('EfectoSepia').addEventListener('click', EfectoSepia);
-document.getElementById('dispersion').addEventListener('click', EfectoDispersion)
-document.getElementById('efectoArcoIris').addEventListener('click', EfectoArcoIris);
+document.getElementById('Dispersion').addEventListener('click', EfectoDispersion)
+document.getElementById('EfectoArcoIris').addEventListener('click', EfectoArcoIris);
 document.getElementById('EfectoSaturacion').addEventListener('click', EfectoSaturacion);
 
