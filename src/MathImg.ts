@@ -1445,6 +1445,23 @@ private static hslToRgb(h: number, s: number, l: number): number[] {
 }
 
 
+public static reflejoLente(arrImage: number[][][]): number[][][] {
+    const width = arrImage[0][0].length;
+    const height = arrImage[0].length;
+    const sal = this.initArray(width, height);
+
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+            // Simula un reflejo de lente al invertir horizontalmente la imagen
+            const reflejoJ = width - 1 - j;
+            sal[0][i][j] = arrImage[0][i][reflejoJ];
+            sal[1][i][j] = arrImage[1][i][reflejoJ];
+            sal[2][i][j] = arrImage[2][i][reflejoJ];
+        }
+    }
+
+    return sal;
+}
 
 
 }

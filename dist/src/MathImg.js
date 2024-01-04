@@ -1328,6 +1328,21 @@ var MathImg = /** @class */ (function () {
         }
         return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
     };
+    MathImg.reflejoLente = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Simula un reflejo de lente al invertir horizontalmente la imagen
+                var reflejoJ = width - 1 - j;
+                sal[0][i][j] = arrImage[0][i][reflejoJ];
+                sal[1][i][j] = arrImage[1][i][reflejoJ];
+                sal[2][i][j] = arrImage[2][i][reflejoJ];
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

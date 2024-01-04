@@ -481,6 +481,11 @@ function EfectoSaturacion(evt: any): void {
   imagenSal.imageArray2DtoData(pantalla2, MathImg.saturacionSelectiva(imagenSal.getArrayImg(), saturacion));
 }
 
+function EfectoReflejoLente(evt: any): void {
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.reflejoLente(imagenSal.getArrayImg()));
+}
+
 
 lienzo1.addEventListener('mousemove', handleMouse);
  
@@ -565,4 +570,5 @@ document.getElementById('EfectoSepia').addEventListener('click', EfectoSepia);
 document.getElementById('Dispersion').addEventListener('click', EfectoDispersion)
 document.getElementById('EfectoArcoIris').addEventListener('click', EfectoArcoIris);
 document.getElementById('EfectoSaturacion').addEventListener('click', EfectoSaturacion);
+document.getElementById('reflejoLente').addEventListener('click', EfectoReflejoLente);
 

@@ -426,6 +426,10 @@ function EfectoSaturacion(evt) {
     // Aplica la función de saturación selectiva
     imagenSal.imageArray2DtoData(pantalla2, MathImg.saturacionSelectiva(imagenSal.getArrayImg(), saturacion));
 }
+function EfectoReflejoLente(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.reflejoLente(imagenSal.getArrayImg()));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -497,3 +501,4 @@ document.getElementById('EfectoSepia').addEventListener('click', EfectoSepia);
 document.getElementById('Dispersion').addEventListener('click', EfectoDispersion);
 document.getElementById('EfectoArcoIris').addEventListener('click', EfectoArcoIris);
 document.getElementById('EfectoSaturacion').addEventListener('click', EfectoSaturacion);
+document.getElementById('reflejoLente').addEventListener('click', EfectoReflejoLente);
