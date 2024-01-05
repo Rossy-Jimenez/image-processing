@@ -1,83 +1,104 @@
 * {
-    background-color: lightgray;
-    padding: 0;
-    margin: 0;
-}
-.container{
-  display: grid;
-  grid-template: 40px 360px 350px/ 1fr 1fr 1fr;
-  margin:0 auto;
-  grid-template-areas: "header header header"
-                       "img-container1 img-container2 img-container3"
-                       "img-container4 img-container5 img-container6";
+  background-color: lightgray;
+  padding: 0;
+  margin: 0;
 }
 
-.header{
-  width: 1450px;
+.container {
+  display: grid;
+  grid-template: 120px 360px 350px/ 1fr 1fr 1fr;
+  margin: 0 auto;
+  grid-template-areas: "header header header"
+                         "img-container1 img-container2 img-container3"
+                         "img-container4 img-container5 img-container6";
+}
+.nav li ul li label {
+  background-color: black;
+  color: lightgray; /* Color de texto más claro */
+  padding: 15px 20px; /* Ajusta el padding para hacerlo más grande */
+}
+.header {
+  width: 1550px;
   font-family: Arial, Helvetica, sans-serif;
   grid-area: header;
 }
 
-ul{
+ul {
   list-style: none;
 }
-.nav li span{
+.nav li {
+  border-right: 1px solid white; /* Añadido para la división entre menús */
+}
+
+.nav > li:last-child {
+  border-right: none; /* Elimina el borde derecho del último elemento */
+}
+
+.nav li span {
   background-color: black;
   color: white;
   text-decoration: none;
   padding: 10px 15px;
   display: block;
 }
-.nav li span:hover{
+
+.nav li span:hover {
   background-color: darkolivegreen;
   cursor: pointer;
 }
-.nav > li{
+
+.nav > li {
   float: left;
 }
 
-.nav ul li label{
+.nav ul li label {
   background-color: black;
   color: white;
   padding: 10px 15px;
 }
-.nav li ul{
+
+.nav li ul {
   display: none;
   position: absolute;
   min-width: 160px;
 }
-.nav li:hover > ul{
+
+.nav li:hover > ul {
   display: block;
 }
-.nav li ul li{
+
+.nav li ul li {
   position: relative;
 }
-.nav li ul li ul{
+
+.nav li ul li ul {
   right: -160px;
   top: 0;
 }
-.im-container1{
-  grid-area: img-container1;
+***************************************
+
+.nav ul {
+  background-color: #333; /* Color de fondo */
+  padding: 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
 }
-.im-container2{
-  grid-area: img-container2;
+
+/* Estilo de los elementos de lista */
+.nav ul li {
+  margin-bottom: 5px; /* Espacio entre elementos de lista */
 }
-.im-container3{
-  grid-area: img-container3;
+
+/* Estilo de enlace dentro de la lista */
+.nav ul li span {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #fff; /* Color del texto */
 }
-.im-container4{
-  grid-area: img-container4;
+
+/* Estilo de enlace en hover */
+.nav ul li span:hover {
+  background-color: #555; /* Cambiar color de fondo al pasar el ratón */
+  cursor: pointer;
 }
-.im-container5{
-  grid-area: img-container5;
-}
-.im-container6{
-  grid-area: img-container6;
-}
-output li{
-  font-size: 10px;
-}
-#color{
-  padding: 2px 20px;
-  background-color: black;
-}
+

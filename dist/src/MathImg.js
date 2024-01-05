@@ -1343,6 +1343,62 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.efectoMovimientoHorizontal = function (arrImage, distancia) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Calcula la nueva posición del píxel después del desplazamiento horizontal
+                var nuevaPosicion = j + distancia;
+                // Asegúrate de que la nueva posición esté en el rango válido
+                nuevaPosicion = Math.max(0, Math.min(width - 1, nuevaPosicion));
+                // Copia el color del píxel original a la nueva posición
+                sal[0][i][nuevaPosicion] = arrImage[0][i][j];
+                sal[1][i][nuevaPosicion] = arrImage[1][i][j];
+                sal[2][i][nuevaPosicion] = arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.efectoMovimientoVertical = function (arrImage, distancia) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Calcula la nueva posición del píxel después del desplazamiento vertical
+                var nuevaPosicion = i + distancia;
+                // Asegúrate de que la nueva posición esté en el rango válido
+                nuevaPosicion = Math.max(0, Math.min(height - 1, nuevaPosicion));
+                // Copia el color del píxel original a la nueva posición
+                sal[0][nuevaPosicion][j] = arrImage[0][i][j];
+                sal[1][nuevaPosicion][j] = arrImage[1][i][j];
+                sal[2][nuevaPosicion][j] = arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.EfectoMovimientoDiagonal = function (arrImage, distanciaX, distanciaY) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Calcula las nuevas posiciones del píxel después del desplazamiento diagonal
+                var nuevaPosicionX = j + distanciaX;
+                var nuevaPosicionY = i + distanciaY;
+                // Asegúrate de que las nuevas posiciones estén en los rangos válidos
+                nuevaPosicionX = Math.max(0, Math.min(width - 1, nuevaPosicionX));
+                nuevaPosicionY = Math.max(0, Math.min(height - 1, nuevaPosicionY));
+                // Copia el color del píxel original a las nuevas posiciones
+                sal[0][nuevaPosicionY][nuevaPosicionX] = arrImage[0][i][j];
+                sal[1][nuevaPosicionY][nuevaPosicionX] = arrImage[1][i][j];
+                sal[2][nuevaPosicionY][nuevaPosicionX] = arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

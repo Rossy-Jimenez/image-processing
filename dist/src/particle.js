@@ -87,3 +87,34 @@ var ParticleText = /** @class */ (function () {
     return ParticleText;
 }());
 export { ParticleText };
+var Bubble = /** @class */ (function () {
+    function Bubble(x, y, size, ctx, color) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+        this.velocityX = Math.random() * 2 - 1; // Random horizontal velocity
+        this.velocityY = Math.random() * 2 - 1; // Random vertical velocity
+        this.color = color;
+    }
+    Bubble.prototype.update = function () {
+        this.x += this.velocityX;
+        this.y += this.velocityY;
+        // Bounce off the walls
+        if (this.x + this.size > this.ctx.canvas.width || this.x - this.size < 0) {
+            this.velocityX *= -1;
+        }
+        if (this.y + this.size > this.ctx.canvas.height || this.y - this.size < 0) {
+            this.velocityY *= -1;
+        }
+    };
+    Bubble.prototype.draw = function () {
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.fill();
+    };
+    return Bubble;
+}());
+export { Bubble };

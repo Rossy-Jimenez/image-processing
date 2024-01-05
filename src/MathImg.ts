@@ -1463,5 +1463,105 @@ public static reflejoLente(arrImage: number[][][]): number[][][] {
     return sal;
 }
 
+public static efectoMovimientoHorizontal(arrImage: number[][][], distancia: number): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          // Calcula la nueva posición del píxel después del desplazamiento horizontal
+          let nuevaPosicion = j + distancia;
+
+          // Asegúrate de que la nueva posición esté en el rango válido
+          nuevaPosicion = Math.max(0, Math.min(width - 1, nuevaPosicion));
+
+          // Copia el color del píxel original a la nueva posición
+          sal[0][i][nuevaPosicion] = arrImage[0][i][j];
+          sal[1][i][nuevaPosicion] = arrImage[1][i][j];
+          sal[2][i][nuevaPosicion] = arrImage[2][i][j];
+      }
+  }
+
+  return sal;
+}
+
+
+public static efectoMovimientoVertical(arrImage: number[][][], distancia: number): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          // Calcula la nueva posición del píxel después del desplazamiento vertical
+          let nuevaPosicion = i + distancia;
+
+          // Asegúrate de que la nueva posición esté en el rango válido
+          nuevaPosicion = Math.max(0, Math.min(height - 1, nuevaPosicion));
+
+          // Copia el color del píxel original a la nueva posición
+          sal[0][nuevaPosicion][j] = arrImage[0][i][j];
+          sal[1][nuevaPosicion][j] = arrImage[1][i][j];
+          sal[2][nuevaPosicion][j] = arrImage[2][i][j];
+      }
+  }
+
+  return sal;
+}
+
+public static EfectoMovimientoDiagonal(arrImage: number[][][], distanciaX: number, distanciaY: number): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          // Calcula las nuevas posiciones del píxel después del desplazamiento diagonal
+          let nuevaPosicionX = j + distanciaX;
+          let nuevaPosicionY = i + distanciaY;
+
+          // Asegúrate de que las nuevas posiciones estén en los rangos válidos
+          nuevaPosicionX = Math.max(0, Math.min(width - 1, nuevaPosicionX));
+          nuevaPosicionY = Math.max(0, Math.min(height - 1, nuevaPosicionY));
+
+          // Copia el color del píxel original a las nuevas posiciones
+          sal[0][nuevaPosicionY][nuevaPosicionX] = arrImage[0][i][j];
+          sal[1][nuevaPosicionY][nuevaPosicionX] = arrImage[1][i][j];
+          sal[2][nuevaPosicionY][nuevaPosicionX] = arrImage[2][i][j];
+      }
+  }
+
+  return sal;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -4,6 +4,7 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
+import { Bubble } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -205,6 +206,8 @@ var numberOfParticles = 1000;
 var particlesArray;
 particlesArray = new Array(0);
 var imagenSal;
+var bubbleArray; // Nuevas burbujas
+bubbleArray = new Array(0);
 function init() {
     //init
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -285,6 +288,33 @@ function animateParticles() {
         particleArray[i].draw();
     }
     requestAnimationFrame(animateParticles);
+}
+//otras funciones//
+function initBubbles() {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle(w, h, ctx, tmp));
+        bubbleArray.push(new Bubble(Math.random() * w, Math.random() * h, Math.random() * 10, ctx, 'red'));
+    }
+}
+function animateBubbles() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    // Solo dibuja las burbujas
+    for (var i = 0; i < bubbleArray.length; i++) {
+        bubbleArray[i].update();
+        bubbleArray[i].draw();
+    }
+    requestAnimationFrame(animateBubbles);
+}
+function iniciarBurbujas() {
+    initBubbles();
+    animateBubbles();
 }
 //seccion de histogramas  
 function histogramas(evt) {
@@ -430,6 +460,38 @@ function EfectoReflejoLente(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.reflejoLente(imagenSal.getArrayImg()));
 }
+function EfectoMovimiento(evt) {
+    var distanciaString = prompt('Ingresa la distancia de desplazamiento horizontal:');
+    if (!distanciaString || isNaN(parseInt(distanciaString))) {
+        alert('Ingresa una distancia válida.');
+        return;
+    }
+    var distancia = parseInt(distanciaString);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoMovimientoHorizontal(imagenSal.getArrayImg(), distancia));
+}
+function EfectoMovimientoVertical(evt) {
+    var distanciaString = prompt('Ingresa la distancia de desplazamiento vertical:');
+    if (!distanciaString || isNaN(parseInt(distanciaString))) {
+        alert('Ingresa una distancia válida.');
+        return;
+    }
+    var distancia = parseInt(distanciaString);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoMovimientoVertical(imagenSal.getArrayImg(), distancia));
+}
+function EfectoMovimientoDiagonal(evt) {
+    var distanciaXString = prompt('Ingresa la distancia de desplazamiento diagonal en el eje X:');
+    var distanciaYString = prompt('Ingresa la distancia de desplazamiento diagonal en el eje Y:');
+    if (!distanciaXString || !distanciaYString || isNaN(parseInt(distanciaXString)) || isNaN(parseInt(distanciaYString))) {
+        alert('Ingresa distancias válidas.');
+        return;
+    }
+    var distanciaX = parseInt(distanciaXString);
+    var distanciaY = parseInt(distanciaYString);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.EfectoMovimientoDiagonal(imagenSal.getArrayImg(), distanciaX, distanciaY));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -502,3 +564,7 @@ document.getElementById('Dispersion').addEventListener('click', EfectoDispersion
 document.getElementById('EfectoArcoIris').addEventListener('click', EfectoArcoIris);
 document.getElementById('EfectoSaturacion').addEventListener('click', EfectoSaturacion);
 document.getElementById('reflejoLente').addEventListener('click', EfectoReflejoLente);
+document.getElementById('EfectoMovimiento').addEventListener('click', EfectoMovimiento);
+document.getElementById('EfectoMovimientoVertical').addEventListener('click', EfectoMovimientoVertical);
+document.getElementById('efectoMovimientoDiagonal').addEventListener('click', EfectoMovimientoDiagonal);
+document.getElementById('efectoBurbujas').addEventListener('click', iniciarBurbujas);

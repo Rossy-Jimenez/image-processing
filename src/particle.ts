@@ -118,4 +118,47 @@ export class ParticleText {
     this.ctx.fill();
   }
 
+
+}
+
+export class Bubble {
+  protected x: number;
+  protected y: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected velocityX: number;
+  protected velocityY: number;
+  protected color: string;
+
+  constructor(x: number, y: number, size: number, ctx: CanvasRenderingContext2D, color: string) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.ctx = ctx;
+    this.velocityX = Math.random() * 2 - 1; // Random horizontal velocity
+    this.velocityY = Math.random() * 2 - 1; // Random vertical velocity
+    this.color = color;
+  }
+
+  public update() {
+    this.x += this.velocityX;
+    this.y += this.velocityY;
+
+    // Bounce off the walls
+    if (this.x + this.size > this.ctx.canvas.width || this.x - this.size < 0) {
+      this.velocityX *= -1;
+    }
+
+    if (this.y + this.size > this.ctx.canvas.height || this.y - this.size < 0) {
+      this.velocityY *= -1;
+    }
+  }
+
+  public draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.fill();
+  }
 }
