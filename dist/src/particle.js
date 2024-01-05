@@ -118,3 +118,30 @@ var Bubble = /** @class */ (function () {
     return Bubble;
 }());
 export { Bubble };
+var RainBubble = /** @class */ (function () {
+    function RainBubble(x, y, size, ctx, color) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+        this.velocityX = (Math.random() * 2 - 1) * 2; // Aumenta la velocidad horizontal
+        this.velocityY = (Math.random() * 2 - 1) * 4; // Aumenta la velocidad vertical
+        this.color = color;
+    }
+    RainBubble.prototype.update = function () {
+        this.y += this.velocityY;
+        // Vuelve a la parte superior cuando alcanza el fondo
+        if (this.y - this.size > this.ctx.canvas.height) {
+            this.y = -this.size;
+        }
+    };
+    RainBubble.prototype.draw = function () {
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.fill();
+    };
+    return RainBubble;
+}());
+export { RainBubble };

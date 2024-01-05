@@ -1,10 +1,10 @@
 export class Particle {
-  protected x: number;
-  protected y: number;
+  public x: number;
+  public y: number;
   protected width: number;
   protected height: number;
   protected speed: number;
-  protected velocity: number;
+  public velocity: number;
   protected size: number;
   protected ctx: CanvasRenderingContext2D;
   protected _2PI: number;
@@ -151,6 +151,43 @@ export class Bubble {
 
     if (this.y + this.size > this.ctx.canvas.height || this.y - this.size < 0) {
       this.velocityY *= -1;
+    }
+  }
+
+  public draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.fill();
+  }
+}
+
+export class RainBubble {
+  public x: number;
+  public y: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected velocityX: number;
+  protected velocityY: number;
+  protected color: string;
+
+  constructor(x: number, y: number, size: number, ctx: CanvasRenderingContext2D, color: string) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.ctx = ctx;
+    this.velocityX = (Math.random() * 2 - 1) * 2; // Aumenta la velocidad horizontal
+    this.velocityY = (Math.random() * 2 - 1) * 4; // Aumenta la velocidad vertical
+    this.color = color;
+  }
+
+  public update() {
+    this.y += this.velocityY;
+
+    // Vuelve a la parte superior cuando alcanza el fondo
+    if (this.y - this.size > this.ctx.canvas.height) {
+      this.y = -this.size;
     }
   }
 

@@ -5,6 +5,7 @@ import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 import { Bubble } from "./particle.js";
+import { RainBubble } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -208,6 +209,9 @@ particlesArray = new Array(0);
 var imagenSal;
 var bubbleArray; // Nuevas burbujas
 bubbleArray = new Array(0);
+var numberOfRainBubbles = 1100;
+var rainBubbleArray;
+rainBubbleArray = new Array(0);
 function init() {
     //init
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -315,6 +319,32 @@ function animateBubbles() {
 function iniciarBurbujas() {
     initBubbles();
     animateBubbles();
+}
+///////////////////////////////////////////////////////////////////////////
+function initRainBubbles() {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfRainBubbles; i++) {
+        rainBubbleArray.push(new RainBubble(Math.random() * w, Math.random() * h, Math.random() * 10, ctx, 'blue'));
+    }
+}
+// Animación de la lluvia de burbujas
+function animateRainBubbles() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < rainBubbleArray.length; i++) {
+        rainBubbleArray[i].update();
+        rainBubbleArray[i].draw();
+    }
+    requestAnimationFrame(animateRainBubbles);
+}
+// Llamada a las funciones de inicialización y animación de la lluvia de burbujas
+function iniciarLluviaBurbujas() {
+    initRainBubbles();
+    animateRainBubbles();
 }
 //seccion de histogramas  
 function histogramas(evt) {
@@ -568,3 +598,4 @@ document.getElementById('EfectoMovimiento').addEventListener('click', EfectoMovi
 document.getElementById('EfectoMovimientoVertical').addEventListener('click', EfectoMovimientoVertical);
 document.getElementById('efectoMovimientoDiagonal').addEventListener('click', EfectoMovimientoDiagonal);
 document.getElementById('efectoBurbujas').addEventListener('click', iniciarBurbujas);
+document.getElementById('iniciarLluviaBurbujas').addEventListener('click', iniciarLluviaBurbujas);
