@@ -199,3 +199,31 @@ export class RainBubble {
     this.ctx.fill();
   }
 }
+
+export class RainWave {
+  protected x: number;
+  protected y: number;
+  protected radius: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected speed: number;
+
+  constructor(x: number, y: number, radius: number, ctx: CanvasRenderingContext2D) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.ctx = ctx;
+    this.speed = 2; // Velocidad de propagación de las ondas
+  }
+
+  public update() {
+    this.radius += this.speed; // Aumenta el radio para simular propagación
+  }
+
+  public draw() {
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.stroke();
+  }}

@@ -145,3 +145,25 @@ var RainBubble = /** @class */ (function () {
     return RainBubble;
 }());
 export { RainBubble };
+var RainWave = /** @class */ (function () {
+    function RainWave(x, y, radius, ctx) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.ctx = ctx;
+        this.speed = 2; // Velocidad de propagación de las ondas
+    }
+    RainWave.prototype.update = function () {
+        this.radius += this.speed; // Aumenta el radio para simular propagación
+    };
+    RainWave.prototype.draw = function () {
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.stroke();
+    };
+    return RainWave;
+}());
+export { RainWave };

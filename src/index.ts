@@ -7,6 +7,7 @@ import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 import { Bubble } from "./particle.js";
 import { RainBubble } from "./particle.js";
+import { RainWave } from "./particle.js";
 
 
 
@@ -221,12 +222,14 @@ const numberOfParticles = 1000;
 let particlesArray: Particle[];
 particlesArray = new Array(0);
 var imagenSal: ImageType;
+
 let bubbleArray: Bubble[]; // Nuevas burbujas
 bubbleArray = new Array(0);
 const numberOfRainBubbles = 1100;
 let rainBubbleArray: RainBubble[];
 rainBubbleArray = new Array(0);
 
+let rainWaveArray: RainWave[] = [];
 
 function init() {
   //init
@@ -381,10 +384,48 @@ function animateRainBubbles() {
   requestAnimationFrame(animateRainBubbles);
 }
 
-// Llamada a las funciones de inicialización y animación de la lluvia de burbujas
+
 function iniciarLluviaBurbujas() {
   initRainBubbles();
   animateRainBubbles();
+}
+
+//intentado funcion de ondas
+
+// Función de inicialización para la lluvia de ondas
+function initRainWaves() {
+  // Inicializa las ondas en puntos aleatorios
+  for (let i = 0; i < 5; i++) {
+    let x = Math.random() * pantalla2.canvas.width;
+    let y = Math.random() * pantalla2.canvas.height;
+    rainWaveArray.push(new RainWave(x, y, 10, ctx));
+  }
+}
+
+
+///ondas
+function animateRainWaves() {
+  // Dibuja la imagen original
+  ctx.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+
+  // Aplica configuraciones de estilo para suavizar las ondas
+  ctx.globalAlpha = 0.1; // Ajusta la opacidad según sea necesario
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Ajusta el color y la opacidad según sea necesario
+  ctx.fillRect(0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+  ctx.globalAlpha = 1; // Restaura la opacidad
+
+  // Actualiza y dibuja cada onda
+  for (let i = 0; i < rainWaveArray.length; i++) {
+    rainWaveArray[i].update();
+    rainWaveArray[i].draw();
+  }
+
+  requestAnimationFrame(animateRainWaves);
+}
+
+function iniciarLluviaOndas() {
+  initRainWaves();
+  animateRainWaves();
 }
 
 //seccion de histogramas  
@@ -702,3 +743,4 @@ document.getElementById("EfectoMovimientoVertical").addEventListener('click', Ef
 document.getElementById("efectoMovimientoDiagonal").addEventListener('click', EfectoMovimientoDiagonal);
 document.getElementById("efectoBurbujas").addEventListener('click', iniciarBurbujas);
 document.getElementById("iniciarLluviaBurbujas").addEventListener('click', iniciarLluviaBurbujas);
+document.getElementById('iniciarLluviaOndas').addEventListener('click', iniciarLluviaOndas);
